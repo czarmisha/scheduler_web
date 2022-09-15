@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block body %}
+<div class="authorization d-flex aligh=items=center justify-content-center">
+{% if 'tg_data' in session%}
+  <div class="auth_success d-flex flex-column align-items-center">
+    <img src="{{ session['tg_data']['photo_url'] }}" alt="" class="user_avatar">
+    <p class="auth_name">Вы вошли как {{ session['tg_data']['first_name'] }}</p>
+  </div>
+{% else %}
+<script async src="https://telegram.org/js/telegram-widget.js?19" data-telegram-login="{{ data['bot_name'] }}" data-size="large" data-auth-url="{{ data['bot_url'] }}" data-request-access="write"></script>
+{% endif %}
+</div>
+
+<div class="buttons d-flex align-items-center justify-content-center flex-column">
+  <div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+      Список бронирований
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="dropdown-item" href="{{ url_for('get_events_by_period', period='today') }}">На сегодня</a></li>
+      <li><a class="dropdown-item" href="{{ url_for('get_events_by_period', period='today') }}">На завтра</a></li>
+      <li><a class="dropdown-item" href="{{ url_for('get_events_by_period', period='today') }}">На эту неделю</a></li>
+    </ul>
+  </div>
+  {% if 'tg_data' in session %}
+  <a class="btn btn-info" href="{{ url_for('get_events_by_user', user_id=session['tg_data']['id']) }}">Мои события</a>
+  <a class="btn btn-info" href="{{ url_for('create_event_form') }}">Создать событие</a>
+  <a class="btn btn-info" href="">Календарь</a>
+</div>
+{% endif %}
+
+{% endblock body %}

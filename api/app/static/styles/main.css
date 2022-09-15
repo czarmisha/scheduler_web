@@ -1,0 +1,63 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+ul, li{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+main{
+    padding: 50px 0;
+}
+.user_avatar{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+.auth_success{
+    margin-bottom: 30px;
+}
+.buttons>a{
+    margin-top: 10px;
+}
+.authorization{
+    padding-bottom: 20px;
+}
+#createEventForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+#createEventForm>div{
+    width: 100%;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.flashes{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.flashes li.error{
+    color: rgb(205, 65, 65);
+}
+.flashes li.info{
+    color: rgb(79, 178, 211);
+}
+.flashes li.success{
+    color: rgb(0, 153, 0);
+}
+table td{
+    padding: 10px;
+}

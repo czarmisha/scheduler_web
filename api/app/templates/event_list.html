@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block body %}
+   <div class="d-flex w-100 flex-column align-items-center">
+    <table class="eventList">
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Время</th>
+                <th>Описание</th>
+                <th>Автор</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ event.start.strftime('%H:%M') }}-{{ event.end.strftime('%H:%M') }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.author_firstname }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+   </div>
+{% endblock body %}
+    
