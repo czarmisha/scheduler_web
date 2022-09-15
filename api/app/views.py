@@ -72,23 +72,25 @@ def get_events_by_period(period):
         return '', 400
 
     events = Event.query.filter(Event.start > start, Event.end < end).order_by(Event.start).all()
-    # response = [event.to_json_api() for event in events]
-    # return jsonify(response)
-    return render_template('event_list.html', events=events)
+    response = [event.to_json_api() for event in events]
+    return jsonify(response)
+    # return render_template('event_list.html', events=events)
 
 @app.get('/events/<int:user_id>')
 def get_events_by_user(user_id):
     if not "tg_data" in session:
         return '', 400
     events = Event.query.filter(Event.author_id==user_id).all()
-    # response = [event.to_json_api() for event in events]
-    # return jsonify(response)
-    return render_template('my_events.html', events=events)
+    response = [event.to_json_api() for event in events]
+    return jsonify(response)
+    # return render_template('my_events.html', events=events)
 
 @app.route('/event/detail/<int:event_id>')
 def event_detail(event_id):
     event = Event.query.get(event_id) # TRY
-    return render_template('event_detail.html', event=event)
+    response = event.to_json_api()
+    return jsonify(response)
+    # return render_template('event_detail.html', event=event)
 
 @app.route('/event/delete/<int:event_id>')
 def delete_event(event_id):
