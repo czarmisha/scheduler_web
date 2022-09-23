@@ -37,12 +37,14 @@ class Event(db.Model):
     author_id = db.Column(db.Integer, nullable=False)
     author_firstname = db.Column(db.String(255), nullable=False)
     author_username = db.Column(db.String(255), nullable=True)
+    is_archive = db.Column(db.Boolean, default=False, nullable=True)
 
     def __repr__(self):
         return f'<Event - start: {self.start}, end: {self.end}>'
     
     def to_json_api(self):
         return {
+            'id': self.id,
             'start': self.start,
             'end': self.end,
             'description': self.description,

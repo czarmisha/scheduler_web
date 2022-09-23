@@ -31,7 +31,7 @@ class EventValidator:
                 Event.start < self.end, Event.end > self.end))).all()
 
         if events:
-            err_message = "err"
+            err_message = "Это время уже занято"
             for event in events:
                 author = f"@{event.author_username}" if event.author_username else f"{event.author_firstname}"
                 start_hour = event.start.hour if event.start.hour > 9 else f'0{event.start.hour}'
@@ -56,19 +56,20 @@ class EventValidator:
         self.calendar = Calendar.query.filter(Calendar.group_id == self.group.id).first()
         return True, self.calendar
 
-    def create_event(self):
+    def create_event(self, uid, ufirstname, uname):
         calendar = self.get_calendar()
         if not calendar[0]:
             return calendar
-        # try except
+        if not uname:
+            uname = ''
         self.event = Event(
             start=self.start,
             end=self.end,
             description=self.description,
             calendar_id=self.calendar.id,
-            author_id=session['tg_data']['id'],
-            author_firstname=session['tg_data']['first_name'],
-            author_username=session['tg_data']['username'] if session['tg_data']['username'] else '',
+            author_id=uid,
+            author_firstname=ufirstname,
+            author_username=uname,
         )
         db.session.add(self.event)
         db.session.commit()

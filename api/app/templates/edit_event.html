@@ -1,9 +1,0 @@
-{% extends 'base.html' %}
-{% block body %}       
-<form method='POST' action="{{ url_for('edit_event', event_id=event_id) }}">
-    <input type="datetime-local" name="start" id="" required='true'>
-    <input type="datetime-local" name="end" id="" required='true'>
-    <textarea name="description" id="" cols="30" rows="10" required='true'></textarea>
-    <input type="submit" value="submit">
-</form>
-{% endblock body %}
