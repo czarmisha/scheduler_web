@@ -1,13 +1,14 @@
 import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Button, DatePicker, Form, Input } from 'antd';
+import { Button, DatePicker, Form, Input, Modal } from 'antd';
 
 const { TextArea } = Input;
 
 export const CreateEvent = () => {
     const [response, setResponse] = useState([])
     const [user, setUser] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -17,6 +18,14 @@ export const CreateEvent = () => {
             setUser(foundUser);
         }
     },[])
+  
+    const handleOk = () => {
+      setIsModalOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
 
     if(Object.keys(user).length === 0){<p></p>
         return <p>Вы не авторизованы</p>
@@ -75,15 +84,19 @@ export const CreateEvent = () => {
             };
             fetch('/api/create-event', requestOptions)
                 .then(response => response.json())
-                .then(data => setResponse(data));
+                .then(function(data) {
+                  setResponse(data);
+                  if(data['error']===true) setIsModalOpen(true)
+                });
         };
-    console.log(response);
-    if(response['success'] === true)navigate("/my-events");
+    if(response['success'] === true)navigate("/my-events")
 
     return <>
-        <div className='ant-form-item-explain-error'>
-            {response['error'] === true ? `${response['message']}` : ``}
-        </div>
+        <Modal title="Error" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <div className='ant-form-item-explain-error'>
+              {response['error'] === true ? `${response['message']}` : ``}
+          </div>
+        </Modal>
         <Form name="create-event-form" {...formItemLayout} onFinish={onFinish}>
         <Form.Item name="start" label="Дата и время начала" {...config}>
             <DatePicker showTime format="YYYY-MM-DD HH:mm" />
