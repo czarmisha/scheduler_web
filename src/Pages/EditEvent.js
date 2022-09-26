@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from 'react';
-import { Button, DatePicker, Form, Input } from 'antd';
+import { Button, DatePicker, Form, Input, Modal } from 'antd';
 import moment from 'moment';
 
 const { TextArea } = Input;
@@ -12,6 +12,7 @@ export const EditEvent = () => {
     const [response, setResponse] = useState([])
     const [user, setUser] = useState({});
     const [initialData, setInitialData] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate()
 
     useEffect(()=>{
@@ -34,6 +35,14 @@ export const EditEvent = () => {
             })
       }
     },[])
+
+    const handleOk = () => {
+      setIsModalOpen(false);
+    };
+  
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
 
     if(Object.keys(user).length === 0){<p></p>
         return <p>Вы не авторизованы</p>
@@ -92,16 +101,21 @@ export const EditEvent = () => {
             };
             fetch(`/api/edit-event/${id}`, requestOptions)
                 .then(response => response.json())
-                .then(data => setResponse(data));
+                .then(function(data) {
+                  setResponse(data);
+                  if(data['error']===true) setIsModalOpen(true)
+                });
         };
     console.log(response);
     if(response['success'] === true)navigate(`/my-events/${id}`);
 
     return <>{events.length !== 0 ?
         <>
-          <div className='ant-form-item-explain-error'>
-              {response['error'] === true ? `${response['message']}` : ``}
-          </div>
+          <Modal title="Error" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <div className='ant-form-item-explain-error'>
+                {response['error'] === true ? `${response['message']}` : ``}
+            </div>
+          </Modal>
           <Form name="create-event-form" {...formItemLayout} onFinish={onFinish} initialValues={{start: moment(initialData.start), end: moment(initialData.end), description: events.description}}>
           <Form.Item name="start" label="Дата и время начала" {...config}>
               <DatePicker showTime format="YYYY-MM-DD HH:mm" />
