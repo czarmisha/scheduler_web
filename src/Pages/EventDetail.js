@@ -91,10 +91,10 @@ export const EventDetail = ()=>{
         const modalTitle = events.length !== 0 ? `Удалить ${events.start.slice(0, 22) + '-' + events.end.slice(17, 22) + ' ' + events.description}` : 'Удаление события'
         return <>
                 <Table dataSource={dataSource} columns={columns} pagination={false} />
-                <Button type="primary" onClick={showModal}>
+                <Button className="my_btn" type="primary" onClick={showModal}>
                     Delete
                 </Button>
-                <Button type="primary" onClick={editEvent}>
+                <Button className="my_btn" type="primary" onClick={editEvent}>
                     Edit
                 </Button>
                 <Modal title={modalTitle} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>

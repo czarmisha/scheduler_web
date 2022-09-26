@@ -10,3 +10,9 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+.site-layout.ant-layout{
+  min-height: 100vh;
+}
+.my_btn{
+  margin: 15px 15px 15px 0;
+}
