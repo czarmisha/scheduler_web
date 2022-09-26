@@ -25,4 +25,4 @@ yarn-error.log*
 */.env
 */__pycache__
 */*/__pycache__
-*/venv
+*/venv 
